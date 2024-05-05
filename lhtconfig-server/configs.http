@@ -1,0 +1,13 @@
+###
+GET http://localhost:9129/list?app=app1&env=dev&nameSpace=public
+
+###
+POST http://localhost:9129/update?app=app1&env=dev&nameSpace=public
+content-type: application/json
+
+{
+    "lht.a": "aa111",
+    "lht.c": "cc.100",
+    "lht.d": "dd120"
+}
+
