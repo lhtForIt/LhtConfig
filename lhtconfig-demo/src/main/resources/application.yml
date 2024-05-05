@@ -1,0 +1,11 @@
+spring:
+    application:
+        name: lhtconfig-demo
+
+
+lht:
+    a: a100
+    b: b300
+    c: c200
+server:
+    port: 8488
