@@ -2,7 +2,6 @@ package com.lht.lhtconfig.server.dao;
 
 import com.lht.lhtconfig.server.model.Configs;
 import org.apache.ibatis.annotations.*;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

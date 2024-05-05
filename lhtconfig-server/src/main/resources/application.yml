@@ -20,9 +20,9 @@ spring:
           settings:
               web-allow-others: true
 
-mybatis:
-    configuration:
-        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#mybatis:
+#    configuration:
+#        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 logging:
     level:
