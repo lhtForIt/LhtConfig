@@ -10,7 +10,9 @@ import org.springframework.stereotype.Component;
  */
 @Data
 @Component
-@ConfigurationProperties(prefix = "lht")
+@ConfigurationProperties(prefix = "lhtconfig")
 public class LhtConfigDemo {
     private String a;
+    private String b;
+    private String c;
 }

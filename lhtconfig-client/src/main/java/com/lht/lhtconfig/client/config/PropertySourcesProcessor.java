@@ -1,5 +1,6 @@
 package com.lht.lhtconfig.client.config;
 
+import com.lht.lhtconfig.client.repository.LhtRepository;
 import lombok.Data;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
@@ -32,13 +33,14 @@ public class PropertySourcesProcessor implements BeanFactoryPostProcessor, Prior
             return;
         }
 
-        //通过HTTP 请求去配置中心服务器获取配置，这里先mock一个
-        Map<String, String> config = new HashMap<>();
-        config.put("lht.a", "lht100");
-        config.put("lht.b", "dev100");
-        config.put("lht.c", "cc200");
+        String app = env.getProperty("lhtconfig.app", "app1");
+        String pEnv = env.getProperty("lhtconfig.env", "dev");
+        String namespace = env.getProperty("lhtconfig.namespace", "public");
+        String configServer = env.getProperty("lhtconfig.configServer", "http:localhost:9129");
 
-        LhtConfigServerImpl lhtConfigServer = new LhtConfigServerImpl(config);
+        ConfigMeta meta = new ConfigMeta(app, pEnv, namespace, configServer);
+
+        LhtConfigServer lhtConfigServer = LhtConfigServer.getDefault(meta);
         LhtPropertySource lhtPropertySource = new LhtPropertySource(LHT_CONFIG_PROPERTY_SOURCE_NAME, lhtConfigServer);
         //这个是组合的配置源，可以组合多个配置源，比如一个环境一个
         CompositePropertySource compositePropertySource = new CompositePropertySource(LHT_CONFIG_PROPERTY_SOURCES_NAME);

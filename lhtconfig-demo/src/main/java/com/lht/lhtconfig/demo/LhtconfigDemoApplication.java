@@ -1,6 +1,6 @@
 package com.lht.lhtconfig.demo;
 
-import com.lht.lhtconfig.client.config.EnableLhtConfig;
+import com.lht.lhtconfig.client.annotation.EnableLhtConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationRunner;
@@ -9,13 +9,18 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @EnableLhtConfig
+@RestController
 public class LhtconfigDemoApplication {
 
-    @Value("${lht.a}")
+    @Value("${lhtconfig.a}")
     private String a;
+    @Value("${lhtconfig.b}")
+    private String b;
 
     @Autowired
     private LhtConfigDemo configDemo;
@@ -24,6 +29,10 @@ public class LhtconfigDemoApplication {
         SpringApplication.run(LhtconfigDemoApplication.class, args);
     }
 
+    @GetMapping("/hello")
+    public String hello(){
+        return "a: " + a + "\n" + "b: " + b + "\n" + "demo.a: " + configDemo.getA() + "\n" + "demo.b: " + configDemo.getB() + "\n";
+    }
 
     @Bean
     ApplicationRunner applicationRunner(Environment env){

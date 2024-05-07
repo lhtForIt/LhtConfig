@@ -1,5 +1,6 @@
-package com.lht.lhtconfig.client.config;
+package com.lht.lhtconfig.client.annotation;
 
+import com.lht.lhtconfig.client.config.LhtConfigRegistrar;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;

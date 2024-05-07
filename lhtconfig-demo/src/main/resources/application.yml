@@ -3,9 +3,13 @@ spring:
         name: lhtconfig-demo
 
 
-lht:
+lhtconfig:
     a: a100
     b: b300
     c: c200
 server:
     port: 8488
+logging:
+    level:
+      root: info
+      com.lht: debug

@@ -1,7 +1,7 @@
-###
+### 获取数据
 GET http://localhost:9129/list?app=app1&env=dev&nameSpace=public
 
-###
+### 更新数据
 POST http://localhost:9129/update?app=app1&env=dev&nameSpace=public
 content-type: application/json
 

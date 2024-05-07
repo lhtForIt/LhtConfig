@@ -8,6 +8,6 @@ create table if not exists `configs` (
 
 
 
-insert into configs (`app`,`env`,`namespace`,`pkey`, `pval`) values ('app1','dev','public','lht.a', 'dev100');
-insert into configs (`app`,`env`,`namespace`,`pkey`, `pval`) values ('app1','dev','public','lht.b', 'http://localhost:9129');
-insert into configs (`app`,`env`,`namespace`,`pkey`, `pval`) values ('app1','dev','public','lht.c', 'yd100');
+insert into configs (`app`,`env`,`namespace`,`pkey`, `pval`) values ('app1','dev','public','lhtconfig.a', 'dev100');
+insert into configs (`app`,`env`,`namespace`,`pkey`, `pval`) values ('app1','dev','public','lhtconfig.b', 'http://localhost:9129');
+insert into configs (`app`,`env`,`namespace`,`pkey`, `pval`) values ('app1','dev','public','lhtconfig.c', 'yd100');
