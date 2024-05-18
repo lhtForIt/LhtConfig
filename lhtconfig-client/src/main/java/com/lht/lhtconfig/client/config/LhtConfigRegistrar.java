@@ -1,5 +1,6 @@
 package com.lht.lhtconfig.client.config;
 
+import com.lht.lhtconfig.client.value.SpringValueProcessor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
@@ -23,14 +24,20 @@ public class LhtConfigRegistrar implements ImportBeanDefinitionRegistrar {
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
 
-        log.info("register propertySourcesProcessor bean");
-        Optional<String> first = Arrays.stream(registry.getBeanDefinitionNames()).filter(d -> "propertySourcesProcessor".equals(d)).findFirst();
-        if (first.isPresent()) {
-            log.info("propertySourcesProcessor bean already exist");
-            return;
-        }
-        AbstractBeanDefinition beanDefinition = BeanDefinitionBuilder.genericBeanDefinition(PropertySourcesProcessor.class).getBeanDefinition();
-        registry.registerBeanDefinition("propertySourcesProcessor", beanDefinition);
+        registerBean(registry, PropertySourcesProcessor.class);
+        registerBean(registry, SpringValueProcessor.class);
 
     }
+
+    private static void registerBean(BeanDefinitionRegistry registry, Class<?> aClass) {
+        Optional<String> first = Arrays.stream(registry.getBeanDefinitionNames()).filter(d -> aClass.getName().equals(d)).findFirst();
+        if (first.isPresent()) {
+            log.info(first.get() + " bean already exist");
+            return;
+        }
+        AbstractBeanDefinition beanDefinition = BeanDefinitionBuilder.genericBeanDefinition(aClass).getBeanDefinition();
+        registry.registerBeanDefinition(aClass.getName(), beanDefinition);
+        log.info("register " + aClass.getName() + " bean");
+    }
+
 }

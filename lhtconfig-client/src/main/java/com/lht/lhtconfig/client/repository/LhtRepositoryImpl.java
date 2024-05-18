@@ -71,7 +71,7 @@ public class LhtRepositoryImpl implements LhtRepository {
         Long oldVersion = versionMap.getOrDefault(key, -1L);
         if (version > oldVersion) {//属性发生了变化
             log.debug("[LHTCONFIG] current=" + version + ", old=" + oldVersion);
-            log.debug("[LHTCONFIG] new update new configs");
+            log.debug("[LHTCONFIG] update new configs");
             versionMap.put(key, version);
             Map<String, String> newConfigs = findAll();
             configsMap.put(key, newConfigs);

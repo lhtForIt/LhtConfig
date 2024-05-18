@@ -9,7 +9,7 @@ POST http://localhost:9129/update?app=app1&env=dev&nameSpace=public
 content-type: application/json
 
 {
-    "lhtconfig.a": "aa300",
+    "lhtconfig.a": "aa888",
     "lhtconfig.c": "cc.100",
     "lhtconfig.d": "dd120"
 }

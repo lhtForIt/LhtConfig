@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
@@ -35,13 +36,14 @@ public class LhtconfigDemoApplication {
     }
 
     @Bean
-    ApplicationRunner applicationRunner(Environment env){
+    ApplicationRunner applicationRunner(Environment env, ApplicationContext applicationContext){
         return args -> {
             ConfigurableEnvironment configEnv = (ConfigurableEnvironment) env;
             System.out.println("====> env.getActiveProfiles():" + env.getActiveProfiles());
             System.out.println("====> configEnv:" + configEnv.getPropertySources());
             System.out.println(a);
             System.out.println(configDemo.getA());
+            System.out.println(applicationContext);
         };
     }
 
