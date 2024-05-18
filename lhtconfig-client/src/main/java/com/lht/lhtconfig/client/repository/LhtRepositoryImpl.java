@@ -4,13 +4,12 @@ import cn.kimmking.utils.HttpUtils;
 import com.alibaba.fastjson.TypeReference;
 import com.lht.lhtconfig.client.config.ConfigMeta;
 import com.lht.lhtconfig.client.config.Configs;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.HttpUrl;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,10 +30,16 @@ public class LhtRepositoryImpl implements LhtRepository {
     private Map<String, Long> versionMap = new HashMap<>();
     private Map<String, Map<String, String>> configsMap = new HashMap<>();
     private ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+    private List<ChangeListener> changeListeners = new ArrayList<>();
 
     public LhtRepositoryImpl(ConfigMeta configMeta) {
         this.configMeta = configMeta;
         scheduledExecutorService.scheduleWithFixedDelay(this::heartBeat, 1, 5, TimeUnit.SECONDS);
+    }
+
+    @Override
+    public void addChangeListener(ChangeListener changeListener) {
+        changeListeners.add(changeListener);
     }
 
     public Map<String, String> getConfig() {
@@ -64,14 +69,15 @@ public class LhtRepositoryImpl implements LhtRepository {
         Long version = HttpUtils.httpGet(heartBeatPath, Long.class);
         String key = configMeta.genKey();
         Long oldVersion = versionMap.getOrDefault(key, -1L);
-        if (version > oldVersion) {
+        if (version > oldVersion) {//属性发生了变化
             log.debug("[LHTCONFIG] current=" + version + ", old=" + oldVersion);
             log.debug("[LHTCONFIG] new update new configs");
             versionMap.put(key, version);
-            configsMap.put(key, findAll());
+            Map<String, String> newConfigs = findAll();
+            configsMap.put(key, newConfigs);
+            log.debug("[LHTCONFIG] fire an EnvironmentChangeEvent with keys:" + newConfigs.keySet());
+            changeListeners.stream().forEach(d -> d.onChange(new ChangeEvent(configMeta, newConfigs)));
         }
-
-
     }
 
 }

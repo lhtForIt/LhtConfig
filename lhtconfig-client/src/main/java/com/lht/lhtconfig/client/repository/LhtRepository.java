@@ -1,7 +1,9 @@
 package com.lht.lhtconfig.client.repository;
 
 import com.lht.lhtconfig.client.config.ConfigMeta;
+import org.springframework.context.ApplicationContext;
 
+import javax.swing.event.ChangeEvent;
 import java.util.Map;
 
 /**
@@ -18,5 +20,14 @@ public interface LhtRepository {
     }
 
     Map<String,String> getConfig();
+
+    void addChangeListener(ChangeListener changeListener);
+
+    interface ChangeListener {
+        void onChange(ChangeEvent event);
+    }
+
+    record ChangeEvent(ConfigMeta meta, Map<String, String> config){}
+
 
 }

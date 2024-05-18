@@ -5,6 +5,8 @@ import lombok.Data;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.PriorityOrdered;
 import org.springframework.core.env.CompositePropertySource;
@@ -19,11 +21,12 @@ import java.util.Map;
  * @date 2024/05/05
  */
 @Data
-public class PropertySourcesProcessor implements BeanFactoryPostProcessor, PriorityOrdered, EnvironmentAware {
+public class PropertySourcesProcessor implements BeanFactoryPostProcessor, PriorityOrdered, EnvironmentAware, ApplicationContextAware {
 
     private final static String LHT_CONFIG_PROPERTY_SOURCE_NAME = "lhtPropertySource";
     private final static String LHT_CONFIG_PROPERTY_SOURCES_NAME = "lhtPropertySources";
     private Environment environment;
+    private ApplicationContext applicationContext;
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
@@ -40,7 +43,7 @@ public class PropertySourcesProcessor implements BeanFactoryPostProcessor, Prior
 
         ConfigMeta meta = new ConfigMeta(app, pEnv, namespace, configServer);
 
-        LhtConfigServer lhtConfigServer = LhtConfigServer.getDefault(meta);
+        LhtConfigServer lhtConfigServer = LhtConfigServer.getDefault(applicationContext,meta);
         LhtPropertySource lhtPropertySource = new LhtPropertySource(LHT_CONFIG_PROPERTY_SOURCE_NAME, lhtConfigServer);
         //这个是组合的配置源，可以组合多个配置源，比如一个环境一个
         CompositePropertySource compositePropertySource = new CompositePropertySource(LHT_CONFIG_PROPERTY_SOURCES_NAME);

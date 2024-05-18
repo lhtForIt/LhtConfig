@@ -1,13 +1,16 @@
 ### 获取数据
 GET http://localhost:9129/list?app=app1&env=dev&nameSpace=public
 
+### 查看数据
+GET http://localhost:8488/hello
+
 ### 更新数据
 POST http://localhost:9129/update?app=app1&env=dev&nameSpace=public
 content-type: application/json
 
 {
-    "lht.a": "aa111",
-    "lht.c": "cc.100",
-    "lht.d": "dd120"
+    "lhtconfig.a": "aa300",
+    "lhtconfig.c": "cc.100",
+    "lhtconfig.d": "dd120"
 }
 
