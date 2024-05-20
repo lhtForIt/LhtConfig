@@ -22,6 +22,9 @@ public class LhtConfigController {
     @Autowired
     ConfigsMapper configsMapper;
 
+    @Autowired
+    DistributedLocks locks;
+
     Map<String, Long> VERSION = new HashMap<>();
 
     @GetMapping("/list")
@@ -39,6 +42,11 @@ public class LhtConfigController {
         });
         VERSION.put(app + "-" + env + "-" + nameSpace, System.currentTimeMillis());
         return configsMapper.list(app, env, nameSpace);
+    }
+
+    @GetMapping("/status")
+    public boolean status(){
+        return locks.getLocked().get();
     }
 
     private void insertOrUpdate(Configs configs) {
